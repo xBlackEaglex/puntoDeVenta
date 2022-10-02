@@ -1,0 +1,5 @@
+
+*el archivo db.sql sirve para crear la base de datos de este proyecto, 
+esta base de datos fue creada en mysql, contiene las diferentes
+tablas creadas para el proyecto  
+ejecutar como script de preferencia en workbench
