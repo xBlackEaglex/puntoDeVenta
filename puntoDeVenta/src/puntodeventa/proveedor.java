@@ -34,69 +34,9 @@ public class proveedor extends javax.swing.JInternalFrame {
         corr.setEnabled(false);
         
         
-        try {
-            
-            DefaultTableModel modelo = new DefaultTableModel();
-            tablaProvedor.setModel(modelo);
-            
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            
-            conexion conn = new conexion();
-            Connection con = conn.conect();
-            
-            String sql = "SELECT idProveedor, Nombre, Empresa, Telefono, Correo FROM proveedor";
-            
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            
-            ResultSetMetaData rsMD = rs.getMetaData();
-            int cantidadColumnas = rsMD.getColumnCount();
-            
-            
-            modelo.addColumn("Id");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Empresa");
-            modelo.addColumn("Telefono");
-            modelo.addColumn("Correo");
-            
-            tablaProvedor.getColumnModel().getColumn(0).setPreferredWidth(33);
-            tablaProvedor.getColumnModel().getColumn(0).setResizable(false);
-            tablaProvedor.getColumnModel().getColumn(1).setPreferredWidth(103);
-            tablaProvedor.getColumnModel().getColumn(1).setResizable(false);
-            tablaProvedor.getColumnModel().getColumn(2).setPreferredWidth(100);
-            tablaProvedor.getColumnModel().getColumn(2).setResizable(false);
-            tablaProvedor.getColumnModel().getColumn(3).setPreferredWidth(100);
-            tablaProvedor.getColumnModel().getColumn(3).setResizable(false);
-            tablaProvedor.getColumnModel().getColumn(4).setPreferredWidth(144);
-            tablaProvedor.getColumnModel().getColumn(4).setResizable(false);
-            
-            
-            
-
-            while(rs.next()){
-                
-                Object[] filas = new Object[cantidadColumnas];
-                
-                for(int i = 0; i < cantidadColumnas; i++){
-                    
-                    filas[i] = rs.getObject(i + 1);
-                    
-                }
-                
-                modelo.addRow(filas);
-                
-            }
-            
-        } catch (SQLException ex) {
-            
-            System.err.println(ex.toString());
-            
-        }
+        cargarTabla();
         
         
-        
-
     }
 
     /**
@@ -182,11 +122,12 @@ public class proveedor extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel2)
                                     .addGap(38, 38, 38)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(38, 38, 38))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jLabel5)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jLabel5)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(corr, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tel, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -394,6 +335,8 @@ public class proveedor extends javax.swing.JInternalFrame {
         tel.setText("");
         corr.setText("");
         
+        cargarTabla();
+        
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -439,6 +382,70 @@ public class proveedor extends javax.swing.JInternalFrame {
         corr.setEnabled(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    
+    public void cargarTabla(){
+        try {
+            
+            DefaultTableModel modelo = new DefaultTableModel();
+            tablaProvedor.setModel(modelo);
+            
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            
+            conexion conn = new conexion();
+            Connection con = conn.conect();
+            
+            String sql = "SELECT idProveedor, Nombre, Empresa, Telefono, Correo FROM Proveedor";
+            
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            ResultSetMetaData rsMD = rs.getMetaData();
+            int cantidadColumnas = rsMD.getColumnCount();
+            
+            
+            modelo.addColumn("Id");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Empresa");
+            modelo.addColumn("Telefono");
+            modelo.addColumn("Correo");
+            
+            tablaProvedor.getColumnModel().getColumn(0).setPreferredWidth(33);
+            tablaProvedor.getColumnModel().getColumn(0).setResizable(false);
+            tablaProvedor.getColumnModel().getColumn(1).setPreferredWidth(103);
+            tablaProvedor.getColumnModel().getColumn(1).setResizable(false);
+            tablaProvedor.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tablaProvedor.getColumnModel().getColumn(2).setResizable(false);
+            tablaProvedor.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tablaProvedor.getColumnModel().getColumn(3).setResizable(false);
+            tablaProvedor.getColumnModel().getColumn(4).setPreferredWidth(170);
+            tablaProvedor.getColumnModel().getColumn(4).setResizable(false);
+            
+            
+            
+
+            while(rs.next()){
+                
+                Object[] filas = new Object[cantidadColumnas];
+                
+                for(int i = 0; i < cantidadColumnas; i++){
+                    
+                    filas[i] = rs.getObject(i + 1);
+                    
+                }
+                
+                modelo.addRow(filas);
+                
+            }
+            
+        } catch (SQLException ex) {
+            
+            System.err.println(ex.toString());
+            
+        }
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField corr;
