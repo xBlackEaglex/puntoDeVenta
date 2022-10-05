@@ -159,8 +159,14 @@ public class selecProv extends javax.swing.JInternalFrame {
         productos venProd = new productos();
 
         
+        principal.contenedor.remove(venProd);
+        
         enviar();
-
+        
+        int x = (principal.contenedor.getWidth()/2) - venProd.getWidth()/2;
+        int y = (principal.contenedor.getHeight()/2) - venProd.getHeight()/2;        
+        venProd.setLocation(x, y);  
+        
         principal.contenedor.add(venProd);
         venProd.toFront();
         venProd.setVisible(true);

@@ -4,6 +4,8 @@
  */
 package puntodeventa;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Iddot
@@ -19,10 +21,10 @@ public class productos extends javax.swing.JInternalFrame {
         desc.setEnabled(false);
         cost.setEnabled(false);
         prec.setEnabled(false);
-//        nomP.setEnabled(false);
-//        empP.setEnabled(false);
-//        telP.setEnabled(false);
-//        corrP.setEnabled(false);
+        nomP.setEnabled(false);
+        empP.setEnabled(false);
+        telP.setEnabled(false);
+        corrP.setEnabled(false);
         
         flecha.setVisible(false);
         
@@ -131,6 +133,11 @@ public class productos extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/producto.png"))); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -350,8 +357,8 @@ public class productos extends javax.swing.JInternalFrame {
         selecP.setLocation(x, y);                 
 
         selecP.toFront();
-        selecP.setVisible(true);      
-        
+        selecP.setVisible(true);  
+               
         this.dispose();
      
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -394,6 +401,23 @@ public class productos extends javax.swing.JInternalFrame {
         
         
     }//GEN-LAST:event_nomPActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        
+        
+        if (nomP.getText().length()==0){
+            flecha.setVisible(true);
+//            JOptionPane.showMessageDialog(null, "Añade un proveedor", "Espera", 3);
+            JOptionPane.showConfirmDialog(null, "Añade un proveedor", "Advertencia", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        }
+        
+        else {
+            
+        }
+        
+ 
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
 
