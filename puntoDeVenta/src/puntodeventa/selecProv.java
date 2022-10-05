@@ -4,6 +4,13 @@
  */
 package puntodeventa;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Iddot
@@ -15,7 +22,20 @@ public class selecProv extends javax.swing.JInternalFrame {
      */
     public selecProv() {
         initComponents();
+
+        cargarTabla1();
+
+        
     }
+    
+    
+    String nom1 = "";
+    String emp1 = "";
+    String tel1 = "";
+    String corr1 = "";
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,13 +48,13 @@ public class selecProv extends javax.swing.JInternalFrame {
 
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaProvedor = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("SELECCIONA UN PROVEEDOR");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProvedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -60,16 +80,26 @@ public class selecProv extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
+        tablaProvedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaProvedorMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaProvedor);
+        if (tablaProvedor.getColumnModel().getColumnCount() > 0) {
+            tablaProvedor.getColumnModel().getColumn(0).setResizable(false);
+            tablaProvedor.getColumnModel().getColumn(1).setResizable(false);
+            tablaProvedor.getColumnModel().getColumn(2).setResizable(false);
+            tablaProvedor.getColumnModel().getColumn(3).setResizable(false);
+            tablaProvedor.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/salidaText.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,11 +134,134 @@ public class selecProv extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tablaProvedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProvedorMouseClicked
+        // TODO add your handling code here:
+        
+        
+        
+        nom1 = tablaProvedor.getValueAt(tablaProvedor.getSelectedRow(), 1).toString();
+        emp1 = tablaProvedor.getValueAt(tablaProvedor.getSelectedRow(), 2).toString();
+        tel1 = tablaProvedor.getValueAt(tablaProvedor.getSelectedRow(), 3).toString();
+        corr1 = tablaProvedor.getValueAt(tablaProvedor.getSelectedRow(), 4).toString();
+        
+        
+ 
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_tablaProvedorMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        productos venProd = new productos();
+
+        
+        enviar();
+
+        principal.contenedor.add(venProd);
+        venProd.toFront();
+        venProd.setVisible(true);
+        
+        
+        this.dispose();
+
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    
+    
+    public void cargarTabla1(){
+        try {
+            
+            DefaultTableModel modelo = new DefaultTableModel();
+            tablaProvedor.setModel(modelo);
+            
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            
+            conexion conn = new conexion();
+            Connection con = conn.conect();
+            
+            String sql = "SELECT idProveedor, Nombre, Empresa, Telefono, Correo FROM Proveedor";
+            
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            ResultSetMetaData rsMD = rs.getMetaData();
+            int cantidadColumnas = rsMD.getColumnCount();
+            
+            
+            modelo.addColumn("Id");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Empresa");
+            modelo.addColumn("Telefono");
+            modelo.addColumn("Correo");
+            
+            tablaProvedor.getColumnModel().getColumn(0).setPreferredWidth(33);
+            tablaProvedor.getColumnModel().getColumn(0).setResizable(false);
+            tablaProvedor.getColumnModel().getColumn(1).setPreferredWidth(103);
+            tablaProvedor.getColumnModel().getColumn(1).setResizable(false);
+            tablaProvedor.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tablaProvedor.getColumnModel().getColumn(2).setResizable(false);
+            tablaProvedor.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tablaProvedor.getColumnModel().getColumn(3).setResizable(false);
+            tablaProvedor.getColumnModel().getColumn(4).setPreferredWidth(153);
+            tablaProvedor.getColumnModel().getColumn(4).setResizable(false);
+            
+            
+            
+
+            while(rs.next()){
+                
+                Object[] filas = new Object[cantidadColumnas];
+                
+                for(int i = 0; i < cantidadColumnas; i++){
+                    
+                    filas[i] = rs.getObject(i + 1);
+                    
+                }
+                
+                modelo.addRow(filas);
+                
+            }
+            
+        } catch (SQLException ex) {
+            
+            System.err.println(ex.toString());
+            
+        }
+    }
+    
+    
+    
+    
+    public void enviar(){
+        
+
+        
+        System.out.println(nom1 + emp1 + tel1 + corr1);
+        
+        
+        productos.nomP.setText(nom1);
+        productos.empP.setText(emp1);
+        productos.telP.setText(tel1);
+        productos.corrP.setText(corr1);
+        
+        this.dispose();
+        
+    }
+    
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    public static javax.swing.JTable tablaProvedor;
     // End of variables declaration//GEN-END:variables
 }
