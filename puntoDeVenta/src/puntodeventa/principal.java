@@ -17,7 +17,18 @@ public class principal extends javax.swing.JFrame {
     public principal() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        
+        
     }
+    
+    
+    public static int permiso = 0;
+    proveedor venProv = new proveedor();
+    
+   
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -79,6 +90,11 @@ public class principal extends javax.swing.JFrame {
 
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/carrito2.png"))); // NOI18N
         jMenu2.setText("Compras");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
 
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nuevo.png"))); // NOI18N
         jMenuItem3.setText("Registrar Proveedor");
@@ -133,13 +149,46 @@ public class principal extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 
-        proveedor ob = new proveedor();
+        permisos ob = new permisos();
         
-        this.contenedor.add(ob);
-        ob.show();
+        ob.setVisible(true);
+        
+        permiso = 1;
+        
+        contenedor.add(venProv);
+        venProv.show();
+        venProv.setVisible(false);
         
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
+    
+    
+
+    public void iniciarPantalla(){
+        permisos ven = new permisos();
+        
+        String ventana = ven.pantallaMostrar;
+        
+        System.out.println(ventana);
+        
+        if (ventana == "prov") {
+            System.out.println("si me estoy ejecutando");
+            venProv.setVisible(true);
+            
+        }
+        
+        else {
+            
+        }
+        
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */
