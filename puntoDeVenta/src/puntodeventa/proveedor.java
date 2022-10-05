@@ -202,7 +202,7 @@ public class proveedor extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addComponent(jButton4)
                 .addGap(32, 32, 32)
                 .addComponent(jButton1)
@@ -418,7 +418,7 @@ public class proveedor extends javax.swing.JInternalFrame {
             tablaProvedor.getColumnModel().getColumn(2).setResizable(false);
             tablaProvedor.getColumnModel().getColumn(3).setPreferredWidth(100);
             tablaProvedor.getColumnModel().getColumn(3).setResizable(false);
-            tablaProvedor.getColumnModel().getColumn(4).setPreferredWidth(170);
+            tablaProvedor.getColumnModel().getColumn(4).setPreferredWidth(153);
             tablaProvedor.getColumnModel().getColumn(4).setResizable(false);
             
             

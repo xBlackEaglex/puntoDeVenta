@@ -24,7 +24,7 @@ public class principal extends javax.swing.JFrame {
     
     
     public static int permiso = 0;
-    proveedor venProv = new proveedor();
+
     
    
     
@@ -58,11 +58,11 @@ public class principal extends javax.swing.JFrame {
         contenedor.setLayout(contenedorLayout);
         contenedorLayout.setHorizontalGroup(
             contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 866, Short.MAX_VALUE)
+            .addGap(0, 880, Short.MAX_VALUE)
         );
         contenedorLayout.setVerticalGroup(
             contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 461, Short.MAX_VALUE)
+            .addGap(0, 481, Short.MAX_VALUE)
         );
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/archivo.png"))); // NOI18N
@@ -107,6 +107,11 @@ public class principal extends javax.swing.JFrame {
 
         jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/producto.png"))); // NOI18N
         jMenuItem4.setText("Registrar Producto");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/compra.png"))); // NOI18N
@@ -148,16 +153,15 @@ public class principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-
-        permisos ob = new permisos();
-        
-        ob.setVisible(true);
-        
         permiso = 1;
+        permisosAdmin venAdmin = new permisosAdmin();        
+        this.contenedor.add(venAdmin);
         
-        contenedor.add(venProv);
-        venProv.show();
-        venProv.setVisible(false);
+        int x = (contenedor.getWidth()/2) - venAdmin.getWidth()/2;
+        int y = (contenedor.getHeight()/2) - venAdmin.getHeight()/2;        
+        venAdmin.setLocation(x, y); 
+        
+        venAdmin.setVisible(true);
         
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -165,29 +169,21 @@ public class principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu2ActionPerformed
 
-    
-    
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        
+        permiso = 2;
+        permisosAdmin venAdmin = new permisosAdmin();        
+        this.contenedor.add(venAdmin);
+        
+        int x = (contenedor.getWidth()/2) - venAdmin.getWidth()/2;
+        int y = (contenedor.getHeight()/2) - venAdmin.getHeight()/2;        
+        venAdmin.setLocation(x, y); 
+        
+        venAdmin.setVisible(true);        
 
-    public void iniciarPantalla(){
-        permisos ven = new permisos();
-        
-        String ventana = ven.pantallaMostrar;
-        
-        System.out.println(ventana);
-        
-        if (ventana == "prov") {
-            System.out.println("si me estoy ejecutando");
-            venProv.setVisible(true);
-            
-        }
-        
-        else {
-            
-        }
-        
-    }
-    
-    
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -225,7 +221,7 @@ public class principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane contenedor;
+    public static javax.swing.JDesktopPane contenedor;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
