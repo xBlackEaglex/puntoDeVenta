@@ -12,8 +12,10 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import static puntodeventa.productos.nomP;
 
 /**
  *
@@ -311,33 +313,64 @@ public class proveedor extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        conexion con = new conexion();
-        Connection reg = con.conect();
         
-        try {
-            PreparedStatement ps = reg.prepareStatement("INSERT INTO Proveedor(nombre, empresa, telefono, correo)VALUES(?,?,?,?)");
-            
-            ps.setString(1, nom.getText());
-            ps.setString(2, emp.getText());
-            ps.setString(3, tel.getText());
-            ps.setString(4, corr.getText());
-            
-            ps.executeUpdate();
-        
-        } catch (SQLException ex) {
-            
-            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
-            
+        if (nom.getText().length()==0){
+            JOptionPane.showMessageDialog(null, "necesita ingresar un nombre de proveedor");
         }
         
-        nom.setText("");
-        emp.setText("");
-        tel.setText("");
-        corr.setText("");
+        else if (emp.getText().length()==0){
+            JOptionPane.showMessageDialog(null, "necesita ingresar un nombre de la empresa");            
+        }
         
-        cargarTabla();
+        else if (tel.getText().length()==0){
+            JOptionPane.showMessageDialog(null, "necesita ingresar un numero de telefono");            
+        }
         
+        else if (corr.getText().length()==0){
+            JOptionPane.showMessageDialog(null, "necesita ingresar un correo electronico");            
+        }
         
+        else { 
+            
+            
+            int x = JOptionPane.showConfirmDialog(null, "Esta seguro que desea registrar al proveedor?", "Registrar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);    
+
+            System.out.println(x);
+            
+            if (x == 0){    
+
+                conexion con = new conexion();
+                Connection reg = con.conect();
+
+                try {
+                    PreparedStatement ps = reg.prepareStatement("INSERT INTO Proveedor(nombre, empresa, telefono, correo)VALUES(?,?,?,?)");
+
+                    ps.setString(1, nom.getText());
+                    ps.setString(2, emp.getText());
+                    ps.setString(3, tel.getText());
+                    ps.setString(4, corr.getText());
+
+                    ps.executeUpdate();
+
+                } catch (SQLException ex) {
+
+                    Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+
+                }
+
+                nom.setText("");
+                emp.setText("");
+                tel.setText("");
+                corr.setText("");
+
+                cargarTabla();
+            }
+            
+            else {
+                
+            }
+        
+        }
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -380,6 +413,12 @@ public class proveedor extends javax.swing.JInternalFrame {
         emp.setEnabled(false);
         tel.setEnabled(false);
         corr.setEnabled(false);
+        
+        nom.setText("");
+        emp.setText("");
+        tel.setText("");
+        corr.setText("");
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     
