@@ -33,7 +33,8 @@ public class selecProv extends javax.swing.JInternalFrame {
     String emp1 = "";
     String tel1 = "";
     String corr1 = "";
-    
+    String prov = "";
+    public static int idProv = 0;
     
     
 
@@ -138,23 +139,14 @@ public class selecProv extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         
         
-        
+        prov = tablaProvedor.getValueAt(tablaProvedor.getSelectedRow(), 0).toString();
         nom1 = tablaProvedor.getValueAt(tablaProvedor.getSelectedRow(), 1).toString();
         emp1 = tablaProvedor.getValueAt(tablaProvedor.getSelectedRow(), 2).toString();
         tel1 = tablaProvedor.getValueAt(tablaProvedor.getSelectedRow(), 3).toString();
         corr1 = tablaProvedor.getValueAt(tablaProvedor.getSelectedRow(), 4).toString();
         
+        idProv = Integer.parseInt(prov);
         
- 
-        
-        
-        
-        
-        
-    }//GEN-LAST:event_tablaProvedorMouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         
         productos venProd = new productos();
 
@@ -172,6 +164,28 @@ public class selecProv extends javax.swing.JInternalFrame {
         venProd.setVisible(true);
         
         
+ 
+        
+        this.dispose();
+        
+        
+        
+    }//GEN-LAST:event_tablaProvedorMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        productos venProd = new productos();
+        
+        int x = (principal.contenedor.getWidth()/2) - venProd.getWidth()/2;
+        int y = (principal.contenedor.getHeight()/2) - venProd.getHeight()/2;        
+        venProd.setLocation(x, y);  
+        
+        principal.contenedor.add(venProd);
+        venProd.toFront();
+        venProd.setVisible(true);
+        
+ 
         this.dispose();
 
         
@@ -255,6 +269,7 @@ public class selecProv extends javax.swing.JInternalFrame {
         productos.empP.setText(emp1);
         productos.telP.setText(tel1);
         productos.corrP.setText(corr1);
+        
         
         this.dispose();
         

@@ -4,7 +4,15 @@
  */
 package puntodeventa;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,11 +35,13 @@ public class productos extends javax.swing.JInternalFrame {
         corrP.setEnabled(false);
         
         flecha.setVisible(false);
+                  
+        cargarTablaProd();
         
     }
 
 
-    
+    int idProveedor = 0;
     
     
     /**
@@ -53,7 +63,7 @@ public class productos extends javax.swing.JInternalFrame {
         jButton4 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaProd = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         cost = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -143,7 +153,7 @@ public class productos extends javax.swing.JInternalFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Registrar");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -169,12 +179,12 @@ public class productos extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPane1.setViewportView(tablaProd);
+        if (tablaProd.getColumnModel().getColumnCount() > 0) {
+            tablaProd.getColumnModel().getColumn(0).setResizable(false);
+            tablaProd.getColumnModel().getColumn(1).setResizable(false);
+            tablaProd.getColumnModel().getColumn(2).setResizable(false);
+            tablaProd.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -382,6 +392,10 @@ public class productos extends javax.swing.JInternalFrame {
         cost.setEnabled(false);
         prec.setEnabled(false);
         
+        desc.setText("");
+        cost.setText("");
+        prec.setText("");
+        
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -408,18 +422,156 @@ public class productos extends javax.swing.JInternalFrame {
         
         if (nomP.getText().length()==0){
             flecha.setVisible(true);
-//            JOptionPane.showMessageDialog(null, "Añade un proveedor", "Espera", 3);
             JOptionPane.showConfirmDialog(null, "Añade un proveedor", "Advertencia", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         }
         
         else {
-            
+            btnRegistrar();
         }
         
  
     }//GEN-LAST:event_jButton4ActionPerformed
 
 
+    
+    public void btnRegistrar() {
+    
+    if (desc.getText().length() == 0){
+        JOptionPane.showInternalMessageDialog(null, "necesitas agregar una descripción");
+    }
+    
+    else if (cost.getText().length() == 0){
+        JOptionPane.showInternalMessageDialog(null, "necesitas agregar el costo");
+    }
+    
+    else if (prec.getText().length() == 0){
+        JOptionPane.showInternalMessageDialog(null, "necesitas agregar el precio");
+    }
+    
+    else {
+        
+        int x = JOptionPane.showConfirmDialog(null, "Esta seguro que desea registrar el producto?", "Registrar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);    
+
+        System.out.println(x);    
+        
+        if (x == 0){
+        
+        registrarProd();
+        
+        }
+        
+        
+        else {
+            
+        }
+        
+        
+    }
+    
+
+}
+    
+    
+    
+    public void registrarProd() {
+        
+        idProveedor = selecProv.idProv;
+        
+        conexion con = new conexion();
+        Connection reg = con.conect();
+
+        try {
+            PreparedStatement ps = reg.prepareStatement("INSERT INTO Productos(Descripcion, Costo, Precio, Existencia, Proveedor_idProveedor)VALUES(?,?,?,?,?)");
+
+            ps.setString(1, desc.getText());
+            ps.setFloat(2, Float.parseFloat(cost.getText()));
+            ps.setFloat(3, Float.parseFloat(prec.getText()));
+            ps.setFloat(4, 0);
+            ps.setInt(5, idProveedor);
+
+            ps.executeUpdate();
+            
+            
+            desc.setText("");
+            cost.setText("");
+            prec.setText("");
+            
+            cargarTablaProd();
+            
+            
+
+        } catch (SQLException ex) {
+
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        
+        
+    }
+    
+    
+    
+        public void cargarTablaProd(){
+        try {
+            
+            DefaultTableModel modelo = new DefaultTableModel();
+            tablaProd.setModel(modelo);
+            
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            
+            conexion conn = new conexion();
+            Connection con = conn.conect();
+            
+            String sql = "SELECT Descripcion, Costo, Precio, Existencia FROM Productos";
+            
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            ResultSetMetaData rsMD = rs.getMetaData();
+            int cantidadColumnas = rsMD.getColumnCount();
+            
+            
+            modelo.addColumn("Descripcion");
+            modelo.addColumn("Costo");
+            modelo.addColumn("Precio");
+            modelo.addColumn("Existencia");
+            
+            
+            tablaProd.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tablaProd.getColumnModel().getColumn(0).setResizable(false);
+            tablaProd.getColumnModel().getColumn(1).setPreferredWidth(40);
+            tablaProd.getColumnModel().getColumn(1).setResizable(false);
+            tablaProd.getColumnModel().getColumn(2).setPreferredWidth(40);
+            tablaProd.getColumnModel().getColumn(2).setResizable(false);
+            tablaProd.getColumnModel().getColumn(3).setPreferredWidth(40);
+            tablaProd.getColumnModel().getColumn(3).setResizable(false);
+            
+            
+            
+            
+
+            while(rs.next()){
+                
+                Object[] filas = new Object[cantidadColumnas];
+                
+                for(int i = 0; i < cantidadColumnas; i++){
+                    
+                    filas[i] = rs.getObject(i + 1);
+                    
+                }
+                
+                modelo.addRow(filas);
+                
+            }
+            
+        } catch (SQLException ex) {
+            
+            System.err.println(ex.toString());
+            
+        }
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JTextField corrP;
@@ -446,9 +598,9 @@ public class productos extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     public static javax.swing.JTextField nomP;
     private javax.swing.JTextField prec;
+    private javax.swing.JTable tablaProd;
     public static javax.swing.JTextField telP;
     // End of variables declaration//GEN-END:variables
 }
