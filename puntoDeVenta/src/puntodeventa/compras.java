@@ -220,7 +220,7 @@ public class compras extends javax.swing.JInternalFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Fecha", "Descripción", "Costo", "Precio", "Existencia"
+                "Fecha", "Producto", "Costo", "Cantidad", "Importe"
             }
         ) {
             Class[] types = new Class [] {
@@ -268,28 +268,27 @@ public class compras extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 10, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(62, 62, 62)
-                                .addComponent(jLabel2)
-                                .addGap(50, 50, 50))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(elegir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(flecha)))
-                .addGap(0, 10, Short.MAX_VALUE))
+                        .addGap(62, 62, 62)
+                        .addComponent(jLabel2)
+                        .addGap(50, 50, 50))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(elegir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(flecha)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -418,15 +417,17 @@ public class compras extends javax.swing.JInternalFrame {
            ;
             ps.executeUpdate();
 
-            cant.setText("");
-            prod.setText("");
-            cost.setText("");
+            
 
             registrarFecha();
             
             registrarDetallesCompras();
 
             cargarTablaProd1();
+            
+            cant.setText("");
+            prod.setText("");
+            cost.setText("");
 
         } catch (SQLException ex) {
 
@@ -450,7 +451,7 @@ public class compras extends javax.swing.JInternalFrame {
             conexion conn = new conexion();
             Connection con = conn.conect();
             
-            String sql = "SELECT Fechas, Descripcion, Costo, Precio, Existencia FROM Compras, Productos WHERE Productos.Proveedor_idProveedor = Compras.Proveedor_idProveedor ";
+            String sql = "SELECT Fechas, Descripción, Costo, Cantidad, Importe FROM Compras, D_compras WHERE idCompras = Compras_idCompras ";
             
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -459,10 +460,10 @@ public class compras extends javax.swing.JInternalFrame {
             int cantidadColumnas = rsMD.getColumnCount();
             
             modelo.addColumn("Fecha");
-            modelo.addColumn("Descripcion");
+            modelo.addColumn("Producto");
             modelo.addColumn("Costo");
-            modelo.addColumn("Precio");
-            modelo.addColumn("Existencia");
+            modelo.addColumn("Cantidad");
+            modelo.addColumn("Importe");
             
             
             tablaProd.getColumnModel().getColumn(0).setPreferredWidth(70);
@@ -550,16 +551,20 @@ public class compras extends javax.swing.JInternalFrame {
         conexion con = new conexion();
         Connection reg = con.conect();
         String idCompras = "Holi";
+        int idComp = 0;
         
 
         try {
             PreparedStatement ps = reg.prepareStatement("SELECT idCompras FROM Compras order by idCompras DESC limit 1");
             
             ResultSet resultado = ps.executeQuery();
-
+            resultado.next();
+            idCompras = resultado.getString("idCompras");
+            idComp = Integer.parseInt(idCompras);
+       
+            System.out.println(idComp);
             
-            System.out.println(idCompras);
-            System.out.println(resultado);
+            
 
         } 
         
@@ -577,26 +582,26 @@ public class compras extends javax.swing.JInternalFrame {
         
         
         
-//        selecProd venProd = new selecProd();
-//        
-//        float importe = venProd.costN * Float.parseFloat(cant.getText());
-//
-//        try {
-//            PreparedStatement ps = reg.prepareStatement("INSERT INTO D_compras(Descripción, Costo, Cantidad, Importe, Compras_idCompras)VALUES(?,?,?,?,?)");
-//
-//            ps.setString(1, venProd.descrip);
-//            ps.setFloat(2, venProd.costN);
-//            ps.setFloat(3, Float.parseFloat(cant.getText()));
-//            ps.setFloat(4, importe);
-//            ps.setInt(5, );
-//
-//            ps.executeUpdate();
-//
-//        } catch (SQLException ex) {
-//
-//            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
-//
-//        }
+        selecProd venProd = new selecProd();
+        
+        float importe = venProd.costN * Float.parseFloat(cant.getText());
+
+        try {
+            PreparedStatement ps = reg.prepareStatement("INSERT INTO D_compras(Descripción, Costo, Cantidad, Importe, Compras_idCompras)VALUES(?,?,?,?,?)");
+
+            ps.setString(1, prod.getText());
+            ps.setFloat(2, venProd.costN);
+            ps.setFloat(3, Float.parseFloat(cant.getText()));
+            ps.setFloat(4, importe);
+            ps.setInt(5, idComp);
+
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+
+            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
         
     }
     
