@@ -115,15 +115,15 @@ public class productos extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(24, 24, 24)
                 .addComponent(jLabel4)
-                .addGap(95, 95, 95)
+                .addGap(77, 77, 77)
                 .addComponent(jButton1)
                 .addGap(75, 75, 75)
                 .addComponent(jButton2)
                 .addGap(73, 73, 73)
                 .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -437,15 +437,15 @@ public class productos extends javax.swing.JInternalFrame {
     public void btnRegistrar() {
     
     if (desc.getText().length() == 0){
-        JOptionPane.showInternalMessageDialog(null, "necesitas agregar una descripción");
+        JOptionPane.showInternalMessageDialog(this, "necesitas agregar una descripción");
     }
     
     else if (cost.getText().length() == 0){
-        JOptionPane.showInternalMessageDialog(null, "necesitas agregar el costo");
+        JOptionPane.showInternalMessageDialog(this, "necesitas agregar el costo");
     }
     
     else if (prec.getText().length() == 0){
-        JOptionPane.showInternalMessageDialog(null, "necesitas agregar el precio");
+        JOptionPane.showInternalMessageDialog(this, "necesitas agregar el precio");
     }
     
     else {

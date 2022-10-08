@@ -116,6 +116,11 @@ public class principal extends javax.swing.JFrame {
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/compra.png"))); // NOI18N
         jMenuItem5.setText("Registrar Compra");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem5);
 
         jMenuBar1.add(jMenu2);
@@ -183,6 +188,20 @@ public class principal extends javax.swing.JFrame {
         venAdmin.setVisible(true);        
 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        
+        compras venCompras = new compras();
+        this.contenedor.add(venCompras);
+        int x = (contenedor.getWidth()/2) - venCompras.getWidth()/2;
+        int y = (contenedor.getHeight()/2) - venCompras.getHeight()/2;        
+        venCompras.setLocation(x, y);
+        
+        venCompras.setVisible(true);
+        
+        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     
     /**
