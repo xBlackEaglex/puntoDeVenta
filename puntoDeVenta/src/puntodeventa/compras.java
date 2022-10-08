@@ -410,7 +410,7 @@ public class compras extends javax.swing.JInternalFrame {
         Connection reg = con.conect();
 
         try {
-            PreparedStatement ps = reg.prepareStatement("UPDATE productos SET Existencia=? WHERE idProductos=?");
+            PreparedStatement ps = reg.prepareStatement("UPDATE Productos SET Existencia=? WHERE idProductos=?");
 
             ps.setFloat(1, existencia);
             ps.setInt(2, selecProd.idProdN);
@@ -423,6 +423,8 @@ public class compras extends javax.swing.JInternalFrame {
             cost.setText("");
 
             registrarFecha();
+            
+            registrarDetallesCompras();
 
             cargarTablaProd1();
 
@@ -448,7 +450,7 @@ public class compras extends javax.swing.JInternalFrame {
             conexion conn = new conexion();
             Connection con = conn.conect();
             
-            String sql = "SELECT Fechas, Descripcion, Costo, Precio, Existencia FROM compras, Productos WHERE productos.Proveedor_idProveedor = compras.Proveedor_idProveedor ";
+            String sql = "SELECT Fechas, Descripcion, Costo, Precio, Existencia FROM Compras, Productos WHERE Productos.Proveedor_idProveedor = Compras.Proveedor_idProveedor ";
             
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -520,7 +522,7 @@ public class compras extends javax.swing.JInternalFrame {
         
         
         try {
-                    PreparedStatement ps = reg.prepareStatement("INSERT INTO compras(Fechas, Tienda_idTienda, Proveedor_idProveedor)VALUES(?,?,?)");
+                    PreparedStatement ps = reg.prepareStatement("INSERT INTO Compras(Fechas, Tienda_idTienda, Proveedor_idProveedor)VALUES(?,?,?)");
 
                     
                     ps.setDate(1, f.fechaCompra);
@@ -537,6 +539,64 @@ public class compras extends javax.swing.JInternalFrame {
         
         
         
+        
+    }
+    
+    
+    public void registrarDetallesCompras() {
+        
+        // Checar aqui
+        
+        conexion con = new conexion();
+        Connection reg = con.conect();
+        String idCompras = "Holi";
+        
+
+        try {
+            PreparedStatement ps = reg.prepareStatement("SELECT idCompras FROM Compras order by idCompras DESC limit 1");
+            
+            ResultSet resultado = ps.executeQuery();
+
+            
+            System.out.println(idCompras);
+            System.out.println(resultado);
+
+        } 
+        
+        catch (SQLException ex) {
+
+            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+//        selecProd venProd = new selecProd();
+//        
+//        float importe = venProd.costN * Float.parseFloat(cant.getText());
+//
+//        try {
+//            PreparedStatement ps = reg.prepareStatement("INSERT INTO D_compras(Descripción, Costo, Cantidad, Importe, Compras_idCompras)VALUES(?,?,?,?,?)");
+//
+//            ps.setString(1, venProd.descrip);
+//            ps.setFloat(2, venProd.costN);
+//            ps.setFloat(3, Float.parseFloat(cant.getText()));
+//            ps.setFloat(4, importe);
+//            ps.setInt(5, );
+//
+//            ps.executeUpdate();
+//
+//        } catch (SQLException ex) {
+//
+//            Logger.getLogger(proveedor.class.getName()).log(Level.SEVERE, null, ex);
+//
+//        }
         
     }
     

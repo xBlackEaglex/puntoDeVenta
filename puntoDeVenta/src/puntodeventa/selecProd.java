@@ -214,7 +214,7 @@ public class selecProd extends javax.swing.JInternalFrame {
             conexion conn = new conexion();
             Connection con = conn.conect();
             
-            String sql = "SELECT idProductos, Descripcion, Costo, Precio, Existencia, Proveedor_idProveedor FROM productos";
+            String sql = "SELECT idProductos, Descripcion, Costo, Precio, Existencia, Proveedor_idProveedor FROM Productos";
             
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
